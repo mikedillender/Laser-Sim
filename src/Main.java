@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class Main extends Applet implements Runnable, KeyListener {
 
     //BASIC VARIABLES
-    private final int WIDTH=1800, HEIGHT=900;
+    private final int WIDTH=3300, HEIGHT=800;
 
     //GRAPHICS OBJECTS
     private Thread thread;
@@ -20,7 +20,7 @@ public class Main extends Applet implements Runnable, KeyListener {
 
     ArrayList<Photon> photons=new ArrayList<>();
     ArrayList<Photon> ejects=new ArrayList<>();
-    Color incol=new Color(59, 202, 255);
+    Color incol=new Color(0, 41, 255);
     Color outcol=new Color(13, 124, 0);
     Color shell=new Color(36, 38, 55);
     Color lens=new Color(118, 185, 191);
@@ -40,8 +40,8 @@ public class Main extends Applet implements Runnable, KeyListener {
     double hw3pi8=8*Math.PI*6.626*Math.pow(10,27-34)/Math.pow(650,3);//h/wavelength^3=hv^3/c^3
 
 
-    double b12=.001;
-    double a21=hw3pi8*b12*1000000;
+    double b12=10;
+    double a21=hw3pi8*b12;
     float Rstabs=0;
     float Rstem;
     float Rspem;
@@ -110,11 +110,11 @@ public class Main extends Applet implements Runnable, KeyListener {
     float spem=0;
     float stabs=0;
     int pc=10;//how many photons are represented by each ball
-    float nmult=10000000;
+    float nmult=(float)(Math.pow(10,10));
 
     public void run() { for (;;){//CALLS UPDATES AND REFRESHES THE GAME
-
-            float dt=.025f;
+            float rdt=.005f;
+            float dt=rdt*.01f;
             //UPDATES
             for (int i=0;i<ejects.size(); i++){
                 short b=ejects.get(i).move(.015f, false,0,WIDTH,0,HEIGHT);
@@ -133,10 +133,10 @@ public class Main extends Applet implements Runnable, KeyListener {
                     i--;
                 }
             }
-            float irrad=photons.size();
+            float irrad=(float)(photons.size()*Math.pow(10,-20+15));
             Rstabs=(float)(b12*n[1]*nmult*irrad/c);
             Rstem=(float)(b12*n[2]*nmult*irrad/c);
-            Rspem=(float)(a21*n[2]*nmult);
+            Rspem=(float)(a21*n[2]*nmult)*100;
             stabs+=Rstabs*dt;
             stem+=Rstem*dt;
             spem+=Rspem*dt;
@@ -159,7 +159,7 @@ public class Main extends Applet implements Runnable, KeyListener {
                 stem-=pc;
             }
             while (stabs>pc){
-                Photon p=photons.remove((int)(photons.size()*Math.random()));
+                photons.remove((int)(photons.size()*Math.random()));
                 n[1]-=pc;
                 n[2]+=pc;
                 stabs-=pc;

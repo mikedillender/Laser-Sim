@@ -3,7 +3,7 @@ import com.sun.javafx.geom.Vec2f;
 import java.awt.*;
 
 public class Photon {
-    static int speed=8000;
+    static int speed=10000;
     private Vec2f p;
     private Vec2f v;
     public Photon(float x, float y){
@@ -12,7 +12,7 @@ public class Photon {
         p=new Vec2f(x,y);
     }
     public Photon(float x, float y,Photon o){
-        float ow=.92f;
+        float ow=.5f;
         float nx=(o.p.x*ow+(1-ow)*x);
         float ny=(o.p.y*ow+(1-ow)*y);
         p=new Vec2f(nx,ny);
